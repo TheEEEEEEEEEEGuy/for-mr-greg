@@ -8,7 +8,7 @@ let COLUMNS = 6;
 let NUM_BOMBS = 10;
 const startUpGrid = Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => null))
 //const startUpGridUI = Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => "hidden"))
-const actualGrid = null;
+let actualGrid = null;
 
 
 export default function BoardGame() {

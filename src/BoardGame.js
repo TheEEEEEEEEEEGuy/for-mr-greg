@@ -15,9 +15,10 @@ let NUM_BOMBS = 10;
 
 export default function BoardGame() {
 
-    const [grid, setGrid] = useState(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => null)));
+    const [Originalgrid, setGrid] = useState(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => null)));
     const [uiGrid, setUiGrid] = useState(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => "hidden")));
-    const [playing, setPlaying] = useState(true)
+    const [loosed, setLoosed] = useState(false)
+    const [playing, setPlaying] = useState(false)
 
     let justBombs
     let bombsAndNeighbors
@@ -25,15 +26,11 @@ export default function BoardGame() {
 
     function blockClicked(theClickThing, x, y) {
         if (theClickThing === "💣") {
-            alert("You Lost")
-            setPlaying(false)
+            setLoosed(false)
         } else {
-            console.log("Clicked: ", theClickThing)
-            console.log("Before: ", uiGrid[y][x])
-            let newUi = uiGrid
+            let newUi = [...uiGrid]
             newUi[y][x] = "Shown"
             setUiGrid(newUi)
-            console.log("After: ", uiGrid[y][x])
         }
     }
     function startFunc() {
@@ -41,57 +38,65 @@ export default function BoardGame() {
         justBombs = fillWithBombs(NUM_BOMBS);
         bombsAndNeighbors = fillNeighbors(justBombs);
         setGrid(bombsAndNeighbors);
-        //setPlaying(true)
-        console.log("Grid:", grid)
+        setPlaying(true)
+        console.log("the grid: ")
+        console.table(Originalgrid)
     }
 
     if (playing) {
-        return (
-            <div>
-                <button onClick={(e) => startFunc()}>Start</button>
-                <table>
-                    <tbody>
-                        {
-                            grid.map((ele, rowIndex) => { //here
-                                return (
-                                    <tr key={`row-${rowIndex}`} >
-                                        {
-                                            ele.map((ele2, colIndex) => {
-                                                let x = colIndex
-                                                let y = rowIndex
-                                                return (<td key={`col-${colIndex}`} onClick={(e) => blockClicked(ele2, x, y)}>{uiGrid[y][x] == "hidden" ? <div>{" "}</div> : <h3>{uiGrid[y][x]}</h3>}</td>)
-                                            })
-                                        }
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
-            </div>
-        )
+        if (!loosed) {
+            return (
+                <div>
+                    <table>
+                        <tbody>
+                            {
+                                Originalgrid.map((ele, rowIndex) => { //here
+                                    return (
+                                        <tr key={`row-${rowIndex}`} >
+                                            {
+                                                ele.map((ele2, colIndex) => {
+                                                    let x = colIndex
+                                                    let y = rowIndex
+                                                    return (<td key={`col-${colIndex}`} onClick={(e) => blockClicked(ele2, x, y)}>{uiGrid[y][x] == "hidden" ? <div>{" "}</div> : <h3>{Originalgrid[y][x]}</h3>}</td>)
+                                                })
+                                            }
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <table>
+                        <tbody>
+                            {
+                                Originalgrid.map((ele, rowIndex) => { //here
+                                    return (
+                                        <tr key={`row-${rowIndex}`} >
+                                            {
+                                                ele.map((ele2, colIndex) => {
+                                                    let x = colIndex
+                                                    let y = rowIndex
+                                                    return (<td key={`col-${colIndex}`} onClick={(e) => blockClicked(ele2, x, y)}><h3>{ele2}</h3></td>)
+                                                })
+                                            }
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
     } else {
         return (
             <div>
-                <table>
-                    <tbody>
-                        {
-                            grid.map((ele, rowIndex) => { //here
-                                return (
-                                    <tr key={`row-${rowIndex}`} >
-                                        {
-                                            ele.map((ele2, colIndex) => {
-                                                let x = colIndex
-                                                let y = rowIndex
-                                                return (<td key={`col-${colIndex}`} onClick={(e) => blockClicked(ele2, x, y)}>{ele2}</td>)
-                                            })
-                                        }
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
+                <button onClick={(e) => startFunc()}>Start</button>
             </div>
         )
     }

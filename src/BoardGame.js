@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import React from 'react'
-import { fillWithBombs, fillNeighbors } from "./bombFunctions"
+import { fillWithBombs } from "./bombFunctions"
 
 
 let ROWS = 9;
@@ -38,6 +38,20 @@ export default function BoardGame() {
     function startFunc() {
         console.log("starting...")
         bombsAndNeighbors = fillWithBombs(NUM_BOMBS);
+        setGrid(bombsAndNeighbors);
+        setPlaying(true)
+        console.log("the grid: ")
+        console.table(Originalgrid)
+    }
+
+    function restartFunc(){
+        setPlaying(false)
+        setLoosed(false)
+        setScore(0)
+        //window.location.reload(false);
+        console.log("restarting...")
+        bombsAndNeighbors = fillWithBombs(NUM_BOMBS);
+        setUiGrid(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => "hidden")))
         setGrid(bombsAndNeighbors);
         setPlaying(true)
         console.log("the grid: ")
@@ -92,6 +106,7 @@ export default function BoardGame() {
                             }
                         </tbody>
                     </table>
+                    <button onClick={(e) => restartFunc()} className={"btn-restart"}>Restart</button>
                 </div>
             )
         }

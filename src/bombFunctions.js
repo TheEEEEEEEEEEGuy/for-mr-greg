@@ -1,6 +1,5 @@
 let ROWS = 9;
 let COLUMNS = 9;
-let NUM_BOMBS = 10;
 
 
 
@@ -14,7 +13,7 @@ export let fillNeighbors = (pl) => {
             //console.log(playingField)
             var bombsFound = 0
             let theBlock = playingField[r][block]
-            if (theBlock != "💣") {
+            if (theBlock !== "💣") {
                 if (playingField[r][block - 1] === "💣") {
                     bombsFound++
                 }
@@ -60,7 +59,6 @@ export let fillNeighbors = (pl) => {
 export let fillWithBombs = (numberOfBombs) => {
     const initialArray = Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => null))
     let numRows = initialArray.length;
-    let numCols = initialArray[0].length;
     let loopCount = 0
     let bombsToSet = numberOfBombs;
     do {

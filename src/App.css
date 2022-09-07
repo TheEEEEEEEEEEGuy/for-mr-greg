@@ -51,3 +51,25 @@ td {
   background-color: transparent;
   box-shadow: 0 0 20px 20px #ff3c00 inset, 0 0 0 0 #ff3c00;
 }
+
+.btn-restart {
+  position: absolute;
+  bottom: 20px;
+  left:50%;
+  transform: translate(-50%, 0);
+  background-color: #1edbf4;
+  border: none;
+  color: white;
+  padding: 36px 52px;
+  text-align: center;
+  font-size: 3rem;
+  margin: 4px 2px;
+  opacity: 1;
+  transition: 0.3s;
+  border-radius: 20px;
+}
+
+.btn-restart:hover {
+  background-color: transparent;
+  box-shadow: 0 0 20px 20px #1e9ef4 inset, 0 0 0 0 #1e9ef4;
+}

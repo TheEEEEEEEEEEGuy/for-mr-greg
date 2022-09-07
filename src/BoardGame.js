@@ -95,7 +95,7 @@ export default function BoardGame() {
         }
     } else {
         return (
-            <div className="menu">
+            <div>
                 <button onClick={(e) => startFunc()} className={"btn"}>Start</button>
                 
             </div>

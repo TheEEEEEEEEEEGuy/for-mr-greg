@@ -15,24 +15,37 @@ export function fillNeighbors(pl) {
             var bombsFound = 0
             let theBlock = playingField[r][block]
             if (theBlock != "💣") {
-                if (playingField[r][block - 1] === "💣") {
-                    bombsFound++
-                }
-                if (playingField[r][block + 1] === "💣") {
-                    bombsFound++
-                }
-                if (r > 0 && playingField[r - 1][block] === "💣") {
-                    bombsFound++
-                }
-                if (r.toString() != "5") {
-                    let newR = r + 1
-                    try {
+                try{
+                    if (playingField[r][block - 1] === "💣") {
+                        bombsFound++
+                    }
+                    if (playingField[r][block + 1] === "💣") {
+                        bombsFound++
+                    }
+                    if (r > 0 && playingField[r - 1][block] === "💣") {
+                        bombsFound++
+
+                    }
+                    if (playingField[r - 1][block - 1] === "💣") {
+                        bombsFound++
+                    }
+                    if (playingField[r - 1][block + 1] === "💣") {
+                        bombsFound++
+                    }
+                    if (r.toString() != "5") {
+                        let newR = r + 1
                         if (playingField[newR][block] === "💣") {
                             bombsFound++
                         }
-                    } catch (e) {
-                        //console.log(e)
+                        if (playingField[newR][block - 1] === "💣") {
+                            bombsFound++
+                        }
+                        if (playingField[newR][block + 1] === "💣") {
+                            bombsFound++
+                        }
                     }
+                }catch(e){
+
                 }
                 playingField[r][block] = bombsFound
             }

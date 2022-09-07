@@ -35,7 +35,7 @@ td {
   top: 50%;
   padding: 10px;
   transform: translate(-50%, -50%);
-  background-color: #f4511e;
+  background-color: #f45b1e;
   border: none;
   color: white;
   padding: 36px 52px;
@@ -48,5 +48,6 @@ td {
 }
 
 .btn:hover {
-  opacity: 0.6
+  background-color: transparent;
+  box-shadow: 0 0 20px 20px #ff3c00 inset, 0 0 0 0 #ff3c00;
 }

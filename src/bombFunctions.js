@@ -7,7 +7,7 @@ let NUM_BOMBS = 10;
 
 
 
-export function fillNeighbors(pl) {
+export let fillNeighbors = (pl) => {
     let playingField = pl
     for (let r = 0; r < ROWS; r++) {
         for (let block = 0; block < COLUMNS; block++) {
@@ -15,24 +15,26 @@ export function fillNeighbors(pl) {
             var bombsFound = 0
             let theBlock = playingField[r][block]
             if (theBlock != "💣") {
-                try{
-                    if (playingField[r][block - 1] === "💣") {
-                        bombsFound++
-                    }
-                    if (playingField[r][block + 1] === "💣") {
-                        bombsFound++
-                    }
-                    if (r > 0 && playingField[r - 1][block] === "💣") {
-                        bombsFound++
+                if (playingField[r][block - 1] === "💣") {
+                    bombsFound++
+                }
+                if (playingField[r][block + 1] === "💣") {
+                    bombsFound++
+                }
+                if (r > 0 && playingField[r - 1][block] === "💣") {
+                    bombsFound++
 
+                }
+                try{
+                    if(r.toString() !== "0"){
+                        if (playingField[r - 1][block - 1] === "💣") {
+                            bombsFound++
+                        }
+                        if (playingField[r - 1][block + 1] === "💣") {
+                            bombsFound++
+                        }
                     }
-                    if (playingField[r - 1][block - 1] === "💣") {
-                        bombsFound++
-                    }
-                    if (playingField[r - 1][block + 1] === "💣") {
-                        bombsFound++
-                    }
-                    if (r.toString() != "5") {
+                    if (r.toString() !== "5") {
                         let newR = r + 1
                         if (playingField[newR][block] === "💣") {
                             bombsFound++
@@ -70,5 +72,5 @@ export let fillWithBombs = (numberOfBombs) => {
         }
         loopCount++
     } while (loopCount < 100 && bombsToSet > 0)
-    return initialArray;
+    return fillNeighbors(initialArray)
 }

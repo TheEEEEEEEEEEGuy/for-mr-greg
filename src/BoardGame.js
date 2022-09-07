@@ -35,8 +35,7 @@ export default function BoardGame() {
     }
     function startFunc() {
         console.log("starting...")
-        justBombs = fillWithBombs(NUM_BOMBS);
-        bombsAndNeighbors = fillNeighbors(justBombs);
+        bombsAndNeighbors = fillWithBombs(NUM_BOMBS);
         setGrid(bombsAndNeighbors);
         setPlaying(true)
         console.log("the grid: ")

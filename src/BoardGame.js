@@ -3,8 +3,8 @@ import React from 'react'
 import { fillWithBombs, fillNeighbors } from "./bombFunctions"
 
 
-let ROWS = 5;
-let COLUMNS = 6;
+let ROWS = 9;
+let COLUMNS = 9;
 let NUM_BOMBS = 10;
 
 
@@ -26,7 +26,7 @@ export default function BoardGame() {
 
     function blockClicked(theClickThing, x, y) {
         if (theClickThing === "💣") {
-            setLoosed(false)
+            setLoosed(true)
         } else {
             let newUi = [...uiGrid]
             newUi[y][x] = "Shown"
@@ -57,7 +57,7 @@ export default function BoardGame() {
                                                 ele.map((ele2, colIndex) => {
                                                     let x = colIndex
                                                     let y = rowIndex
-                                                    return (<td key={`col-${colIndex}`} onClick={(e) => blockClicked(ele2, x, y)}>{uiGrid[y][x] == "hidden" ? <div>{" "}</div> : <h3>{Originalgrid[y][x]}</h3>}</td>)
+                                                    return (<td key={`col-${colIndex}`} onClick={(e) => blockClicked(ele2, x, y)}>{uiGrid[y][x] === "hidden" ? <div>{" "}</div> : <h3>{Originalgrid[y][x]}</h3>}</td>)
                                                 })
                                             }
                                         </tr>
@@ -95,8 +95,9 @@ export default function BoardGame() {
         }
     } else {
         return (
-            <div>
-                <button onClick={(e) => startFunc()}>Start</button>
+            <div className="menu">
+                <button onClick={(e) => startFunc()} className={"btn"}>Start</button>
+                
             </div>
         )
     }

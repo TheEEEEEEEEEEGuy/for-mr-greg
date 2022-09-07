@@ -1,5 +1,5 @@
-let ROWS = 5;
-let COLUMNS = 6;
+let ROWS = 9;
+let COLUMNS = 9;
 let NUM_BOMBS = 10;
 
 

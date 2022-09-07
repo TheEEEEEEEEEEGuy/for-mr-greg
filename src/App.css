@@ -2,14 +2,14 @@
   text-align: center;
 }
 
-body{
+body {
   background-color: grey;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-table{
+table {
   top: 50px;
   position: relative;
   border-style: solid;
@@ -19,11 +19,34 @@ table{
 
 }
 
-tr{
+tr {
   background-color: rgb(58, 58, 58);
   color: white;
 }
-td{
-  width: 100px;
-  height: 100px;
+
+td {
+  width: 70px;
+  height: 70px;
+}
+
+.btn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  padding: 10px;
+  transform: translate(-50%, -50%);
+  background-color: #f4511e;
+  border: none;
+  color: white;
+  padding: 36px 52px;
+  text-align: center;
+  font-size: 3rem;
+  margin: 4px 2px;
+  opacity: 1;
+  transition: 0.3s;
+  border-radius: 20px;
+}
+
+.btn:hover {
+  opacity: 0.6
 }

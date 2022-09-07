@@ -88,6 +88,7 @@ export default function BoardGame() {
             return (
                 <div>
                     <table>
+                        
                         <tbody>
                             {
                                 Originalgrid.map((ele, rowIndex) => { //here
@@ -106,6 +107,7 @@ export default function BoardGame() {
                             }
                         </tbody>
                     </table>
+                    <h4>You Lost. <br></br> Your score: {score}</h4>
                     <button onClick={(e) => restartFunc()} className={"btn-restart"}>Restart</button>
                 </div>
             )

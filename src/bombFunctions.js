@@ -1,58 +1,54 @@
 let ROWS = 9;
 let COLUMNS = 9;
+const bomb = "💣"
 
 
 
-
+function countNeighborBombs(x, y, ar) {
+    let pl = [...ar]
+    var bombsFound = 0
+    try{
+        if ((y!==0) && (x!==0) && (pl[y - 1][x - 1] === bomb)) {
+            bombsFound++
+        }
+        if ((y!==0) && pl[y - 1][x] === bomb) {
+            bombsFound++
+        }
+        if ((y!==0) && (x!==9) && pl[y - 1][x + 1] === bomb) {
+            bombsFound++
+        }
+        if ((x!==0) && pl[y][x - 1] === bomb) {
+            bombsFound++
+        }
+        if ((x!==9) && pl[y][x + 1] === bomb) {
+            bombsFound++
+        }
+        if ((y!==9) && (x!==0) &&  pl[y + 1][x - 1] === bomb) {
+            bombsFound++
+        }
+        if ((y!==9) && pl[y + 1][x] === bomb) {
+            bombsFound++
+        }
+        if ((y!==9) && (x!==9) &&  pl[y + 1][x + 1] === bomb) {
+            bombsFound++
+        }
+    }catch(e){
+        
+    }
+    return (bombsFound)
+}
 
 
 export let fillNeighbors = (pl) => {
-    let playingField = pl
-    for (let r = 0; r < ROWS; r++) {
-        for (let block = 0; block < COLUMNS; block++) {
-            //console.log(playingField)
-            var bombsFound = 0
-            let theBlock = playingField[r][block]
-            if (theBlock !== "💣") {
-                if (playingField[r][block - 1] === "💣") {
-                    bombsFound++
-                }
-                if (playingField[r][block + 1] === "💣") {
-                    bombsFound++
-                }
-                if (r > 0 && playingField[r - 1][block] === "💣") {
-                    bombsFound++
-
-                }
-                try{
-                    if(r.toString() !== "0"){
-                        if (playingField[r - 1][block - 1] === "💣") {
-                            bombsFound++
-                        }
-                        if (playingField[r - 1][block + 1] === "💣") {
-                            bombsFound++
-                        }
-                    }
-                    if (r.toString() !== "5") {
-                        let newR = r + 1
-                        if (playingField[newR][block] === "💣") {
-                            bombsFound++
-                        }
-                        if (playingField[newR][block - 1] === "💣") {
-                            bombsFound++
-                        }
-                        if (playingField[newR][block + 1] === "💣") {
-                            bombsFound++
-                        }
-                    }
-                }catch(e){
-
-                }
-                playingField[r][block] = bombsFound
+    let playingField = [...pl]
+    for (let y = 0; y < ROWS; y++) {
+        for (let x = 0; x < COLUMNS; x++) {
+            if (playingField[x][y] !== bomb) {
+                playingField[x][y] = countNeighborBombs(x, y, playingField);
             }
         }
     }
-    return(playingField)
+    return (playingField)
 }
 
 
@@ -65,7 +61,7 @@ export let fillWithBombs = (numberOfBombs) => {
         let randX = Math.floor(Math.random() * numRows);
         let randY = Math.floor(Math.random() * numRows);
         if (initialArray[randX][randY] === null) {
-            initialArray[randX][randY] = "💣";
+            initialArray[randX][randY] = bomb;
             bombsToSet -= 1;
         }
         loopCount++

@@ -1,50 +1,49 @@
-let ROWS = 9;
-let COLUMNS = 9;
-const bomb = "💣"
+export const NUM_ROWS = 9;
+export const NUM_COLUMNS = 9;
+export const NUM_BOMBS = 10;
+export const BOMB = "💣"
 
 
 
-function countNeighborBombs(x, y, ar) {
-    let pl = [...ar]
-    var bombsFound = 0
+function countNeighborBombs(x, y, pl) {
+    let bombsFound = 0
     try{
-        if ((y!==0) && (x!==0) && (pl[y - 1][x - 1] === bomb)) {
+        if ((x > 0) && (y > 0) && (pl[x - 1][y - 1] === BOMB)) {
             bombsFound++
         }
-        if ((y!==0) && pl[y - 1][x] === bomb) {
+        if ((x > 0) && pl[x - 1][y] === BOMB) {
             bombsFound++
         }
-        if ((y!==0) && (x!==9) && pl[y - 1][x + 1] === bomb) {
+        if ((x > 0) && (y < NUM_COLUMNS) && pl[x - 1][y + 1] === BOMB) {
             bombsFound++
         }
-        if ((x!==0) && pl[y][x - 1] === bomb) {
+        if ((y > 0) && pl[x][y - 1] === BOMB) {
             bombsFound++
         }
-        if ((x!==9) && pl[y][x + 1] === bomb) {
+        if ((y < NUM_COLUMNS) && pl[x][y + 1] === BOMB) {
             bombsFound++
         }
-        if ((y!==9) && (x!==0) &&  pl[y + 1][x - 1] === bomb) {
+        if ((x < NUM_ROWS) && (y > 0) &&  pl[x + 1][y - 1] === BOMB) {
             bombsFound++
         }
-        if ((y!==9) && pl[y + 1][x] === bomb) {
+        if ((x < NUM_ROWS) && pl[x + 1][y] === BOMB) {
             bombsFound++
         }
-        if ((y!==9) && (x!==9) &&  pl[y + 1][x + 1] === bomb) {
+        if ((x < NUM_ROWS) && (y < NUM_COLUMNS) &&  pl[x + 1][y + 1] === BOMB) {
             bombsFound++
         }
     }catch(e){
-        
+      console.error(`EXCEPTION happened!`, e);
     }
     return (bombsFound)
 }
 
 
-export let fillNeighbors = (pl) => {
-    let playingField = [...pl]
-    for (let y = 0; y < ROWS; y++) {
-        for (let x = 0; x < COLUMNS; x++) {
-            if (playingField[x][y] !== bomb) {
-                playingField[x][y] = countNeighborBombs(x, y, playingField);
+export let fillNeighbors = (playingField) => {
+    for (let i = 0; i < NUM_ROWS; i++) {
+        for (let j = 0; j < NUM_COLUMNS; j++) {
+            if (playingField[i][j] !== BOMB) {
+                playingField[i][j] = countNeighborBombs(i, j, playingField);
             }
         }
     }
@@ -53,18 +52,22 @@ export let fillNeighbors = (pl) => {
 
 
 export let fillWithBombs = (numberOfBombs) => {
-    const initialArray = Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => null))
-    let numRows = initialArray.length;
+    const initialArray = Array.from(Array(NUM_ROWS), () => Array.from(Array(NUM_COLUMNS), () => null))
     let loopCount = 0
     let bombsToSet = numberOfBombs;
     do {
-        let randX = Math.floor(Math.random() * numRows);
-        let randY = Math.floor(Math.random() * numRows);
+        let randX = Math.floor(Math.random() * NUM_ROWS);
+        let randY = Math.floor(Math.random() * NUM_COLUMNS);
         if (initialArray[randX][randY] === null) {
-            initialArray[randX][randY] = bomb;
+            initialArray[randX][randY] = BOMB;
             bombsToSet -= 1;
         }
         loopCount++
     } while (loopCount < 100 && bombsToSet > 0)
-    return fillNeighbors(initialArray)
+    console.log("After filling with BOMBS")
+    console.table(initialArray);
+    let arr = fillNeighbors(initialArray);
+    console.log("After filling with NEIGHBORS")
+    console.table(arr);
+    return arr;
 }

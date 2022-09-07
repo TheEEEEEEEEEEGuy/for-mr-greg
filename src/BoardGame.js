@@ -19,8 +19,8 @@ export default function BoardGame() {
     const [uiGrid, setUiGrid] = useState(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => "hidden")));
     const [loosed, setLoosed] = useState(false)
     const [playing, setPlaying] = useState(false)
+    const [score, setScore] = useState(0)
 
-    let justBombs
     let bombsAndNeighbors
 
 
@@ -31,6 +31,8 @@ export default function BoardGame() {
             let newUi = [...uiGrid]
             newUi[y][x] = "Shown"
             setUiGrid(newUi)
+            let newScore = score + 1
+            setScore(newScore)
         }
     }
     function startFunc() {
@@ -46,6 +48,7 @@ export default function BoardGame() {
         if (!loosed) {
             return (
                 <div>
+                    <h1>Score: {score}</h1>
                     <table>
                         <tbody>
                             {

@@ -1,28 +1,16 @@
 import { useState } from "react";
 import React from 'react'
-import { fillWithBombs } from "./bombFunctions"
-
-
-let ROWS = 9;
-let COLUMNS = 9;
-let NUM_BOMBS = 10;
-
-
-
-
+import { fillWithBombs, NUM_ROWS, NUM_COLUMNS, NUM_BOMBS } from "./bombFunctions"
 
 
 
 export default function BoardGame() {
 
-    const [Originalgrid, setGrid] = useState(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => null)));
-    const [uiGrid, setUiGrid] = useState(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => "hidden")));
+    const [Originalgrid, setGrid] = useState();
+    const [uiGrid, setUiGrid] = useState();
     const [loosed, setLoosed] = useState(false)
     const [playing, setPlaying] = useState(false)
     const [score, setScore] = useState(0)
-
-    let bombsAndNeighbors
-
 
     function blockClicked(theClickThing, x, y) {
         if (theClickThing === "💣") {
@@ -37,11 +25,16 @@ export default function BoardGame() {
     }
     function startFunc() {
         console.log("starting...")
-        bombsAndNeighbors = fillWithBombs(NUM_BOMBS);
-        setGrid(bombsAndNeighbors);
+        let newGrid = fillWithBombs(NUM_BOMBS);
+        setGrid(newGrid);
+        setUiGrid(
+          Array.from(Array(NUM_ROWS), () =>
+            Array.from(Array(NUM_COLUMNS), () => 'hidden')
+          )
+        );
         setPlaying(true)
         console.log("the grid: ")
-        console.table(Originalgrid)
+        console.table(newGrid)
     }
 
     function restartFunc(){
@@ -50,12 +43,7 @@ export default function BoardGame() {
         setScore(0)
         //window.location.reload(false);
         console.log("restarting...")
-        bombsAndNeighbors = fillWithBombs(NUM_BOMBS);
-        setUiGrid(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => "hidden")))
-        setGrid(bombsAndNeighbors);
-        setPlaying(true)
-        console.log("the grid: ")
-        console.table(Originalgrid)
+        startFunc()
     }
 
     if (playing) {

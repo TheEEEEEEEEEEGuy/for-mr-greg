@@ -64,6 +64,7 @@ export let fillWithBombs = (numberOfBombs) => {
         }
         loopCount++
     } while (loopCount < 100 && bombsToSet > 0)
+
     // console.log("After filling with BOMBS")
     // console.table(initialArray);
     let arr = fillNeighbors(initialArray);

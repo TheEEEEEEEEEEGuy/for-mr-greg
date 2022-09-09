@@ -1,61 +1,57 @@
 import { useState } from "react";
 import React from 'react'
-import { fillWithBombs } from "./bombFunctions"
-
-
-let ROWS = 9;
-let COLUMNS = 9;
-let NUM_BOMBS = 10;
-
-
-
-
+import { fillWithBombs, NUM_ROWS, NUM_COLUMNS, NUM_BOMBS } from "./bombFunctions"
 
 
 
 export default function BoardGame() {
 
-    const [Originalgrid, setGrid] = useState(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => null)));
-    const [uiGrid, setUiGrid] = useState(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => "hidden")));
+    const [Originalgrid, setGrid] = useState();
+    const [uiGrid, setUiGrid] = useState();
     const [loosed, setLoosed] = useState(false)
     const [playing, setPlaying] = useState(false)
     const [score, setScore] = useState(0)
 
-    let bombsAndNeighbors
+    function checkBlock(){
 
+    }
 
-    function blockClicked(theClickThing, x, y) {
-        if (theClickThing === "💣") {
+    function blockClicked(x, y) {
+        let theBlock = Originalgrid[y][x]
+        if (theBlock === "💣") {
             setLoosed(true)
         } else {
-            let newUi = [...uiGrid]
-            newUi[y][x] = "Shown"
-            setUiGrid(newUi)
+            setUiGrid((currVal) => {
+                let newUi = [...currVal];
+                newUi[y][x] = "Shown";
+                return newUi;
+            });
             let newScore = score + 1
             setScore(newScore)
+            
         }
     }
     function startFunc() {
         console.log("starting...")
-        bombsAndNeighbors = fillWithBombs(NUM_BOMBS);
-        setGrid(bombsAndNeighbors);
+        let newGrid = fillWithBombs(NUM_BOMBS);
+        setGrid(newGrid);
+        setUiGrid(
+            Array.from(Array(NUM_ROWS), () =>
+                Array.from(Array(NUM_COLUMNS), () => 'hidden')
+            )
+        );
         setPlaying(true)
-        console.log("the grid: ")
-        console.table(Originalgrid)
+        //console.log("the grid: ")
+        //console.table(newGrid)
     }
 
-    function restartFunc(){
+    function restartFunc() {
         setPlaying(false)
         setLoosed(false)
         setScore(0)
         //window.location.reload(false);
-        console.log("restarting...")
-        bombsAndNeighbors = fillWithBombs(NUM_BOMBS);
-        setUiGrid(Array.from(Array(ROWS), () => Array.from(Array(COLUMNS), () => "hidden")))
-        setGrid(bombsAndNeighbors);
-        setPlaying(true)
-        console.log("the grid: ")
-        console.table(Originalgrid)
+        //console.log("restarting...")
+        startFunc()
     }
 
     if (playing) {
@@ -73,7 +69,7 @@ export default function BoardGame() {
                                                 ele.map((ele2, colIndex) => {
                                                     let x = colIndex
                                                     let y = rowIndex
-                                                    return (<td key={`col-${colIndex}`} onClick={(e) => blockClicked(ele2, x, y)}>{uiGrid[y][x] === "hidden" ? <div>{" "}</div> : <h3>{Originalgrid[y][x]}</h3>}</td>)
+                                                    return (<td key={`col-${colIndex}`} onClick={(e) => blockClicked(x, y)}>{uiGrid[y][x] === "hidden" ? <div>{" "}</div> : <h3>{Originalgrid[y][x]}</h3>}</td>)
                                                 })
                                             }
                                         </tr>
@@ -88,7 +84,7 @@ export default function BoardGame() {
             return (
                 <div>
                     <table>
-                        
+
                         <tbody>
                             {
                                 Originalgrid.map((ele, rowIndex) => { //here
@@ -116,7 +112,7 @@ export default function BoardGame() {
         return (
             <div>
                 <button onClick={(e) => startFunc()} className={"btn"}>Start</button>
-                
+
             </div>
         )
     }

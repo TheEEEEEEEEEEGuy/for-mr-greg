@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from 'react'
-import { fillWithBombs, NUM_ROWS, NUM_COLUMNS, NUM_BOMBS } from "./bombFunctions"
+import { fillWithBombs, NUM_ROWS, NUM_COLUMNS, NUM_BOMBS, BOMB } from "./bombFunctions"
 
 
 
@@ -12,24 +12,25 @@ export default function BoardGame() {
     const [playing, setPlaying] = useState(false)
     const [score, setScore] = useState(0)
 
-    function checkBlock(){
-
+    function checkBlock(x, y){
+        let theBlock = Originalgrid[y][x]
+        if (theBlock !== BOMB){
+            blockClicked(x,y)
+        }else{
+            setLoosed(true)
+        }
     }
 
     function blockClicked(x, y) {
-        let theBlock = Originalgrid[y][x]
-        if (theBlock === "💣") {
-            setLoosed(true)
-        } else {
-            setUiGrid((currVal) => {
-                let newUi = [...currVal];
-                newUi[y][x] = "Shown";
-                return newUi;
-            });
-            let newScore = score + 1
-            setScore(newScore)
-            
-        }
+        setUiGrid((currVal) => {
+            let newUi = [...currVal];
+            newUi[y][x] = "Shown";
+            return newUi;
+        });
+        setScore((currVal) => {
+            let newScore = currVal + 1
+            return newScore;
+        });
     }
     function startFunc() {
         console.log("starting...")
@@ -69,7 +70,7 @@ export default function BoardGame() {
                                                 ele.map((ele2, colIndex) => {
                                                     let x = colIndex
                                                     let y = rowIndex
-                                                    return (<td key={`col-${colIndex}`} onClick={(e) => blockClicked(x, y)}>{uiGrid[y][x] === "hidden" ? <div>{" "}</div> : <h3>{Originalgrid[y][x]}</h3>}</td>)
+                                                    return (<td key={`col-${colIndex}`} onClick={(e) => checkBlock(x, y)}>{uiGrid[y][x] === "hidden" ? <div>{" "}</div> : <h3>{Originalgrid[y][x]}</h3>}</td>)
                                                 })
                                             }
                                         </tr>

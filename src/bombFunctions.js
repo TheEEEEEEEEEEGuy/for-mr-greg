@@ -1,5 +1,5 @@
-export const NUM_ROWS = 9;
-export const NUM_COLUMNS = 9;
+export const NUM_ROWS = 10;
+export const NUM_COLUMNS = 6;
 export const NUM_BOMBS = 10;
 export const BOMB = "💣"
 
